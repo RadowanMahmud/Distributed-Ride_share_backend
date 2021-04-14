@@ -17,6 +17,7 @@ io.of('communication').on('connection', (socket)=>{
 })
 
 app.post('/api/communication', (req,res)=>{
+    console.log("messaged received")
     storeSocket.emit("welcome", req.body.driver_name +' has been matched with '+ req.body.rider_name + ' and the fiar is ' + req.body.mindist*2 +' #'+ req.body.driver_id)
 })
 

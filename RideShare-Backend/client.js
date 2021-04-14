@@ -13,7 +13,7 @@ const search = {
 const driverSearch = {
     hostname: 'localhost',
     port: 9000,
-    path: '/driver',
+    path: '/api/driver',
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
@@ -22,7 +22,7 @@ const driverSearch = {
 const riderSearch = {
     hostname: 'localhost',
     port: 9000,
-    path: '/rider',
+    path: '/api/rider',
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
@@ -32,13 +32,13 @@ const riderSearch = {
 const fetchAllDrivers = {
     hostname: 'localhost',
     port: 9000,
-    path: '/driver/fetch',
+    path: '/api/driver/fetch',
     method: 'Get',
 }
 const fetchAllRiders = {
     hostname: 'localhost',
     port: 9000,
-    path: '/rider/fetch',
+    path: '/api/rider/fetch',
     method: 'Get',
 }
 
@@ -70,7 +70,7 @@ reqRider.end()
 
 function call(){
     const job = sch.scheduleJob('*/6 * * * * *', async function(){
-        console.log('\n')
+        console.log('\n**************************************************************************************************************\n')
         driversearchfunction()
         ridersearchfunction()
     })
