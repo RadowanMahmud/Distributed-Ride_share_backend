@@ -78,8 +78,9 @@ function callCommunicetion(d_name,r_name,min_dist,d_id){
     message.mindist = min_dist
     message.driver_id = d_id
 
+    console.log('calling')
     const req = http.request(communicationRequest, res => {
-         console.log(`statusCode: ${res.statusCode} `)
+         //console.log(`statusCode: ${res.statusCode} `)
     })
     req.write(JSON.stringify(message))
     req.end()
