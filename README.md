@@ -7,7 +7,7 @@ There is a file called client.js which is acting as our client bot. It is locate
 The client bot sends requests to the server and the server checks the db after every 5 sec and matches 
 a rider with driver and emmits the changes through socket.
 
-About stoping the server, First
+About stoping the server, First we need to stop the communication server than other servers.
 
 Technologies used
 
