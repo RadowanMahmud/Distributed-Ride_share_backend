@@ -64,9 +64,9 @@ function callCommunicetion(d_name,r_name,min_dist,d_id){
     }
 
     const communicationRequest = {
-        hostname: 'localhost',
+        hostname: '192.168.0.104',
         port: 8000,
-        path: '/api/communication',
+        path: '/api/comModel',
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

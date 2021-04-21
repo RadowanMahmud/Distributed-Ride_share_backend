@@ -2,7 +2,7 @@ const io = require('socket.io-client')
 const http = require('http')
 const sch = require('node-schedule')
 
-let socket = io.connect('http://localhost:8001/communication')
+let socket = io.connect('http://192.168.0.104:8001/communication')
 
 const search = {
     id: '',
