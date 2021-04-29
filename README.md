@@ -36,16 +36,23 @@ The client joins with the communication module via socket.
 # config for nginx 
 
 
-	server {
-		listen 9000;
-		listen [::]:9000;
-		
-		location /api {
-			proxy_pass http://127.0.0.1:9001;
-		}
-		
-		location /rating {
-			proxy_pass http://127.0.0.1:9002;
-		}
+server {
+	listen 80;
+	listen [::]:80;
+	
+	location /api {
+		proxy_pass http://rideshare-backend:5000;
 	}
+	
+	location /rating {
+		proxy_pass http://rating-module:5000;
+	}
+}
+
+# Docker compose added
+
+Run commands for docker compose
+
+'sudo docker-compose build'
+'sudo docker-compose up'
 
