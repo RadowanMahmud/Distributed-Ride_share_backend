@@ -4,7 +4,7 @@ const app = express()
 const cors = require('cors')
 const http = require('http')
 const sch = require('node-schedule')
-const url = 'mongodb://localhost/MyExpressDatas'
+const url = 'mongodb://192.168.0.104:27017/MyExpressDatas'
 const Driver = require('./models/Driver')
 const Rider = require('./models/Rider')
 
@@ -64,7 +64,7 @@ function callCommunicetion(d_name,r_name,min_dist,d_id){
     }
 
     const communicationRequest = {
-        hostname: '192.168.0.104',
+        hostname: 'localhost',
         port: 8000,
         path: '/api/comModel',
         method: 'POST',
@@ -90,6 +90,24 @@ const driverrouter = require('./routers/driver')
 app.use('/api/driver',driverrouter)
 const riderrouter = require('./routers/rider')
 app.use('/api/rider',riderrouter)
+
+app.post('/driver',async (req, res) => {
+    try{
+        drivers.push(req.body)
+        res.send('ok')
+    }catch (err){
+        res.send('Error' + err)
+    }
+})
+
+app.post('/rider',async (req, res) => {
+    try{
+        riders.push(req.body)
+        res.send('ok')
+    }catch (err){
+        res.send('Error' + err)
+    }
+})
 
 // app.post('/rating',async (req,res)=>{
 //     try{

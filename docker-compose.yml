@@ -1,0 +1,42 @@
+version: '1'
+
+services: 
+     communication-module:
+        build: ./communicationModule/
+        ports: 
+            - 8001:7001
+            - 8000:7000
+        restart: always
+
+    rating-module:
+        build: ./ratingModule/
+        restart: always
+        depends_on: 
+            - mongodb
+    
+    rideshare-backend:
+        build: ./RideShare-Backend/
+        restart: always
+        depends_on: 
+            - communication-service
+
+    nginx:
+        build: ./nginx/
+        ports: 
+            - 9000:80
+        depends_on: 
+            - rating-service
+            - communication-service
+            - ride-sharing-service
+
+    mongodb:
+        image: mongo
+        ports: 
+            - 27017:27017
+        volumes:
+            - mongodb_data_container:/data/db
+    
+volumes:
+    mongodb_data_container:
+    
+    

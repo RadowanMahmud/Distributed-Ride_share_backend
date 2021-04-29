@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Driver = require('../models/Driver')
 
+
 router.get('/fetch', async (req,res) => {
     try{
         const drivers = await Driver.find()
