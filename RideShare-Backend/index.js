@@ -1,44 +1,49 @@
 const express = require('express')
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
 const app = express()
 const cors = require('cors')
 const http = require('http')
 const sch = require('node-schedule')
-const url = 'mongodb://192.168.0.104:27017/MyExpressDatas'
-const Driver = require('./models/Driver')
-const Rider = require('./models/Rider')
+// const url = 'mongodb://192.168.0.104:27017/MyExpressDatas'
+// const Driver = require('./models/Driver')
+// const Rider = require('./models/Rider')
 
 app.use(cors())
 app.use(express.json())
 
-mongoose.connect(url, {useNewUrlParser:true,useUnifiedTopology:true})
-const con = mongoose.connection
+// mongoose.connect(url, {useNewUrlParser:true,useUnifiedTopology:true})
+// const con = mongoose.connection
 
-con.on('open',function (){
-    console.log('connected-----')
-})
+// con.on('open',function (){
+//     console.log('connected-----')
+// })
 
 const job = sch.scheduleJob('*/5 * * * * *', async function(){
     await getDist()
     for (const d of drivers) {
-        let mindist = 10000000000;
-        let selectedrider;
-        for (const r of riders){
-            let dist = Math.sqrt((r.positionX-d.positionX)*(r.positionX-d.positionX)+(r.positionY-d.positionY)*(r.positionY-d.positionY))
-            if(dist<mindist){
-                mindist = dist
-                selectedrider = r
+        if(d.status === true) continue;
+        else{
+            let mindist = 10000000000;
+            let selectedrider;
+            for (const r of riders){
+                if(r.status !== true) {
+                    let dist = Math.sqrt((r.positionX-d.positionX)*(r.positionX-d.positionX)+(r.positionY-d.positionY)*(r.positionY-d.positionY))
+                    if(dist<mindist){
+                        mindist = dist
+                        selectedrider = r
+                    }
+                }
             }
+            d.status = true
+            // const result = await d.save()
+            selectedrider.status = true
+            //  const r1 = await selectedrider.save()
+            console.log(d.name,selectedrider.name,mindist,d.id)
+            callCommunicetion(d.name,selectedrider.name,mindist,d.id)
+            await getDist()
+            console.log('\n'+drivers.length)
+            console.log(riders.length)
         }
-        d.status = true
-        const result = await d.save()
-        selectedrider.status = true
-        const r1 = await selectedrider.save()
-
-        callCommunicetion(d.name,selectedrider.name,mindist,d._id)
-        await getDist()
-        console.log('\n'+drivers.length)
-        console.log(riders.length)
     }
 });
 
@@ -46,13 +51,26 @@ let drivers = [];
 let riders = [];
 
 async function getDist(){
-    try{
-        drivers = await Driver.find({status : false})
-        riders = await Rider.find({status : false})
-    }catch (err){
-        console.log(err)
+    console.log("scheduler calling dist");
+    // if(con){
+    //     try{
+    //         drivers = await Driver.find({status : false})
+    //         riders = await Rider.find({status : false})
+    //     }catch (err){
+    //         console.log(err)
+    //     }
+    // }
+    for (let i=0; i <drivers.length ; i++){
+        if(drivers[i].status === true){
+            drivers.splice(i,1)
+        }
     }
 
+    for (let i=0; i <riders.length ; i++){
+        if(riders[i].status === true){
+            riders.splice(i,1)
+        }
+    }
 }
 
 function callCommunicetion(d_name,r_name,min_dist,d_id){
@@ -64,8 +82,8 @@ function callCommunicetion(d_name,r_name,min_dist,d_id){
     }
 
     const communicationRequest = {
-        hostname: 'localhost',
-        port: 8000,
+        hostname: 'communication-module',
+        port: '7000',
         path: '/api/comModel',
         method: 'POST',
         headers: {
@@ -86,12 +104,12 @@ function callCommunicetion(d_name,r_name,min_dist,d_id){
     req.end()
 }
 
-const driverrouter = require('./routers/driver')
-app.use('/api/driver',driverrouter)
-const riderrouter = require('./routers/rider')
-app.use('/api/rider',riderrouter)
+// const driverrouter = require('./routers/driver')
+// app.use('/api/driver',driverrouter)
+// const riderrouter = require('./routers/rider')
+// app.use('/api/rider',riderrouter)
 
-app.post('/driver',async (req, res) => {
+app.post('/api/driver',async (req, res) => {
     try{
         drivers.push(req.body)
         res.send('ok')
@@ -100,7 +118,7 @@ app.post('/driver',async (req, res) => {
     }
 })
 
-app.post('/rider',async (req, res) => {
+app.post('/api/rider',async (req, res) => {
     try{
         riders.push(req.body)
         res.send('ok')
@@ -120,6 +138,6 @@ app.post('/rider',async (req, res) => {
 //     }
 // })
 
-app.listen(9001, () => {
-    console.log('server opened at port number 9001')
+app.listen(5000, () => {
+    console.log('server opened at port number 5000')
 })

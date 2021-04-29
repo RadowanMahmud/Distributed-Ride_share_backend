@@ -2,7 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const app = express()
 const cors = require('cors')
-const url = 'mongodb://localhost/MyExpressDataRating'
+const url = 'mongodb://mymongodb:27017/MyExpressDataRating'
 const Rating = require('./models/Rating')
 
 app.use(cors())
@@ -30,6 +30,6 @@ app.post('/rating',async (req,res)=>{
     }
 })
 
-app.listen(9002, ()=>{
-    console.log("Server for rating opened at port port 9002")
+app.listen(5000, ()=>{
+    console.log("Server for rating opened at port port 5000")
 })
