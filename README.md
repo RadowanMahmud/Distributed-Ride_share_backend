@@ -66,5 +66,6 @@ Run commands for docker compose
 	10.100.0.4 chittagong.communication.red
 
 commands for dns configuartion
+
 	sudo gedit /etc/hosts
 
