@@ -17,6 +17,8 @@ Technologies used
 * mongoose
 * node-schedule
 * http
+* docker
+* docker-compose
 
 # Commands for running
 
@@ -54,4 +56,15 @@ Run commands for docker compose
 
 	'sudo docker-compose build'
 	'sudo docker-compose up'
+	
+	
+# DNS Server is configuration
+
+	10.100.0.101 dhaka.rideshare.red
+	10.100.0.102 chittagong.rideshare.red
+	10.100.0.3 dhaka.communication.red
+	10.100.0.4 chittagong.communication.red
+
+commands for dns configuartion
+	sudo gedit /etc/hosts
 
