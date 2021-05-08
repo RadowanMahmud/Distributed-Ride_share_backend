@@ -1,30 +1,53 @@
 version : "3.8"
-services:
 
-    communication-module:
-        build: ./communicationModule/
-        ports: 
-            - 8001:7001
-        restart: always
+networks:
+    redNet:
+      ipam:
+        config:
+          - subnet: 10.100.0.0/24
+
+services:
 
     rating-module:
         build: ./ratingModule/
         restart: always
         depends_on: 
             - mymongodb
+        networks:
+            redNet:
+                ipv4_address: 10.100.0.5 
 
-    rideshare-backend:
+    communication-module-dhaka:
+        build: ./communicationModule/
+        restart: always
+         networks:
+            redNet:
+                ipv4_address: 10.100.0.3 
+
+    rideshare-backend-dhaka:
         build: ./RideShare-Backend/
         restart: always
         depends_on: 
-            - communication-module
-    nginx:
+            - communication-module-dhaka
+        environment: 
+            - SERVERLOCATION=dhaka
+        networks:
+            redNet:
+                ipv4_address: 10.100.0.1
+
+    nginx-dhaka:
         build: ./nginx/
-        ports: 
-            - 9000:80
         depends_on: 
             - rating-module
-            - rideshare-backend
+            - rideshare-backend-dhaka
+        environment: 
+            - rideshare_server=rideshare-backend-dhaka
+            - rating_server=rating-service
+        command: /bin/sh -c "envsubst < /etc/nginx/conf.d/nginx.conf.template > /etc/nginx/conf.d/nginx.conf && nginx -g 'daemon off;'" 
+        networks:
+            redNet:
+                ipv4_address: 10.100.0.101
+
     mymongodb:
         image: mongo
         ports: 
