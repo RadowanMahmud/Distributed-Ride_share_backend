@@ -17,6 +17,8 @@ Technologies used
 * mongoose
 * node-schedule
 * http
+* docker
+* docker-compose
 
 # Commands for running
 
@@ -35,8 +37,12 @@ The client joins with the communication module via socket.
 
 # config for nginx 
 
+<<<<<<< HEAD
 
 	server {
+=======
+  	server {
+>>>>>>> f9045d6465e3373df94457943f180103859b9dc4
 		listen 80;
 		listen [::]:80;
 		
@@ -53,6 +59,18 @@ The client joins with the communication module via socket.
 
 Run commands for docker compose
 
-'sudo docker-compose build'
-'sudo docker-compose up'
+	'sudo docker-compose build'
+	'sudo docker-compose up'
+	
+	
+# DNS Server is configuration
+
+	10.100.0.101 dhaka.rideshare.red
+	10.100.0.102 chittagong.rideshare.red
+	10.100.0.3 dhaka.communication.red
+	10.100.0.4 chittagong.communication.red
+
+commands for dns configuartion
+
+	sudo gedit /etc/hosts
 
