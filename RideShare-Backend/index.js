@@ -5,7 +5,7 @@ const cors = require('cors')
 const http = require('http')
 const sch = require('node-schedule')
 
-let server_location = process.env.SERVERLOCATION;
+let server_location = process.env.SERVER
 
 // const url = 'mongodb://192.168.0.104:27017/MyExpressDatas'
 // const Driver = require('./models/Driver')
@@ -85,7 +85,7 @@ function callCommunicetion(d_name,r_name,min_dist,d_id){
     }
 
     const communicationRequest = {
-        hostname: `communication-module-${SERVERLOCATION}`,
+        hostname: `communication-module-${server_location}`,
         port: '7000',
         path: '/api/comModel',
         method: 'POST',
@@ -141,6 +141,6 @@ app.post('/api/rider',async (req, res) => {
 //     }
 // })
 
-app.listen(5000, () => {
-    console.log('server opened at port number 5000')
+app.listen(6000, () => {
+    console.log('server opened at port number 6000')
 })
