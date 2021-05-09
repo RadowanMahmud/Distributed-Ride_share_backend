@@ -2,7 +2,9 @@ const io = require('socket.io-client')
 const http = require('http')
 const sch = require('node-schedule')
 
-let socket = io.connect('http://localhost:8001/communication')
+let location = 'chittagong';
+
+let socket = io.connect(`http://${location}.communication.red:7001/communication`)
 
 // const search = {
 //     id: '',
@@ -11,8 +13,8 @@ let socket = io.connect('http://localhost:8001/communication')
 // }
 
 const driverSearch = {
-    hostname: 'localhost',
-    port: 9000,
+    hostname: `${location}.rideshare.red`,
+    port: 80,
     path: '/api/driver',
     method: 'POST',
     headers: {
@@ -20,8 +22,8 @@ const driverSearch = {
     }
 }
 const riderSearch = {
-    hostname: 'localhost',
-    port: 9000,
+    hostname: `${location}.rideshare.red`,
+    port: 80,
     path: '/api/rider',
     method: 'POST',
     headers: {
@@ -159,8 +161,8 @@ socket.on('welcome',(data)=>{
     giverating(str[1])
 })
 const saveRating = {
-    hostname: 'localhost',
-    port: 9000,
+    hostname: `${location}.rideshare.red`,
+    port: 80,
     path: '/rating',
     method: 'POST',
     headers: {

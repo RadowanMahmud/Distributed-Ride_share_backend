@@ -31,9 +31,9 @@ services:
             - communication-module-dhaka
         environment: 
             - SERVERLOCATION=dhaka
-        networks:
-            redNet:
-                ipv4_address: 10.100.0.1
+        # networks:
+        #     redNet:
+        #         ipv4_address: 10.100.0.11
 
     nginx-dhaka:
         build: ./nginx/
@@ -41,8 +41,8 @@ services:
             - rating-module
             - rideshare-backend-dhaka
         environment: 
-            - rideshare_server=rideshare-backend-dhaka
-            - rating_server=rating-service
+            - RIDE_SERVER=rideshare-backend-dhaka
+            - RATING=rating-service
         command: /bin/sh -c "envsubst < /etc/nginx/conf.d/nginx.conf.template > /etc/nginx/conf.d/nginx.conf && nginx -g 'daemon off;'" 
         networks:
             redNet:
@@ -61,10 +61,10 @@ services:
         depends_on: 
             - communication-module-chittagong
         environment: 
-            - SERVERLOCATION=dhaka
-        networks:
-            redNet:
-                ipv4_address: 10.100.0.2
+            - SERVERLOCATION=chittagong
+        # networks:
+        #     redNet:
+        #         ipv4_address: 10.100.0.2
 
     nginx-chittagong:
         build: ./nginx/
@@ -72,8 +72,8 @@ services:
             - rating-module
             - rideshare-backend-chittagong
         environment: 
-            - rideshare_server=rideshare-backend-chittagong
-            - rating_server=rating-service
+            - RIDE_SERVER=rideshare-backend-chittagong
+            - RATING=rating-service
         command: /bin/sh -c "envsubst < /etc/nginx/conf.d/nginx.conf.template > /etc/nginx/conf.d/nginx.conf && nginx -g 'daemon off;'" 
         networks:
             redNet:
@@ -85,6 +85,9 @@ services:
             - 2700:27017
         volumes:
             - mongodb_data_container:/data/db   
+        networks:
+            redNet:
+                ipv4_address: 10.100.0.15
 
 volumes:
     mongodb_data_container:

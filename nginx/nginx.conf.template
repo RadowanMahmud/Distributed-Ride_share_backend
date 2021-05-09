@@ -3,10 +3,10 @@ server {
 	listen [::]:80;
 	
 	location /api {
-		proxy_pass http://rideshare-backend:5000;
+		proxy_pass http://${RIDE_SERVER}:5000;
 	}
 	
 	location /rating {
-		proxy_pass http://rating-module:5000;
+		proxy_pass http://${RATING}:5000;
 	}
 }
