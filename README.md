@@ -37,12 +37,7 @@ The client joins with the communication module via socket.
 
 # config for nginx 
 
-<<<<<<< HEAD
-
-	server {
-=======
   	server {
->>>>>>> f9045d6465e3373df94457943f180103859b9dc4
 		listen 80;
 		listen [::]:80;
 		
