@@ -38,16 +38,17 @@ The client joins with the communication module via socket.
 # config for nginx 
 
   	server {
-		listen 80;
-		listen [::]:80;
-		
-		location /api {
-			proxy_pass http://rideshare-backend:5000;
-		}
-		
-		location /rating {
-			proxy_pass http://rating-module:5000;
-		}
+	    listen 80;
+	    listen [::]:80;
+	
+	    location /rating {
+		proxy_pass http://${RATING}:5000;
+	    }
+
+	    location /api {
+		proxy_pass http://${RIDESERVER}:6000;
+	    }
+
 	}
 
 # Docker compose added
